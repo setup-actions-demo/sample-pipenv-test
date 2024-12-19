@@ -1,9 +1,9 @@
 name: Reproduce Python 3.11.11 Error
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 jobs:
