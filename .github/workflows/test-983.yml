@@ -1,0 +1,32 @@
+name: Reproduce Python 3.11.11 Error
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11.11"
+        cache: 'pipenv' # caching pip dependencies
+
+    - name: Install pipenv
+      run: |
+        python -m pip install --upgrade pipenv wheel
+
+    - name: Install dependencies
+      if: steps.pipenv-cache.outputs.cache-hit != 'true'
+      run: |
+        pipenv install --deploy --dev
+        pipenv install -e .
